@@ -1,5 +1,4 @@
 export interface Event{
-    id: string;
     type: 'positive' | 'negative'; //event type
     title: string; // title
     description: string; // short description of what happened
