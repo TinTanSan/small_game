@@ -33,6 +33,3 @@ export function withdraw(deposits:Array<Deposit> , id:string, curMonth:number){
     const deposit = deposits.splice(idx,1)[0];
     return deposit.startingAmount+((curMonth-deposit.startMonth)*deposit.interestRate*deposit.startingAmount);
 }
-
-
-
