@@ -11,8 +11,8 @@ export interface Security{
     industry: string;
     securityType: "Equity" | "Commoditity" ;
     riskTier: "Low" | "High";
-    currentValue: number;
-    recentEvents: Event[];
+    priceHistory: Array<number>;
+    recentEvents: Array<Event>;
 }
 
 export interface Holding{
