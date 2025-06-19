@@ -4,21 +4,21 @@ export function setUpSecurities(){
     if (typeof window !== 'undefined'){
         const secStr = localStorage.getItem("securities");
         if (secStr !== null){
-            const securityPrices:Array<{ticker:string, priceHistory: number[], events:Event[]}> = JSON.parse(secStr);
+            const securityPrices:Array<{ticker:string, priceHistory: number[], recentEvents:Event[]}> = JSON.parse(secStr);
             const securities = companies;
             securities.concat(commodities)
             securities.forEach((x)=>{
                 // it will always find the security, refer to else statement
                 const storedSecurity = securityPrices.find((s)=>s.ticker===x.ticker);
                 x.priceHistory = storedSecurity?.priceHistory || [];
-                x.recentEvents = storedSecurity?.events || [];
+                x.recentEvents = storedSecurity?.recentEvents || [];
             })
             return securities;
         }else{
             const securities = companies;
             securities.concat(commodities)
             assignEvent(securities);
-            localStorage.setItem("securities", JSON.stringify(securities.map((security:Security)=>({ticker:security.ticker, price:security.priceHistory, events: security.recentEvents}))));
+            localStorage.setItem("securities", JSON.stringify(securities.map((security:Security)=>({ticker:security.ticker, priceHistory:security.priceHistory, events: security.recentEvents}))));
             console.log("successfully set up securities")
             return securities;
         }
