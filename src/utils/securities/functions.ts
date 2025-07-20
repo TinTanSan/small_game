@@ -76,3 +76,12 @@ export function updateSecurityState(securities:Array<Security>):Array<Security>{
     return newSecurities;
 }
 
+export function getSecurity(ticker:string):Security | undefined{
+    const t = ticker.toUpperCase();
+    if (typeof window !== 'undefined'){
+        
+        let securities:Array<Security> = JSON.parse(localStorage.getItem("securities")||"[]");
+        return securities.find(x=>x.ticker === t);
+    }
+    return undefined;
+}
