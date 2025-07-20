@@ -26,8 +26,6 @@ export default function Home() {
     const deps = importDeposits();
     setDeposits(deps);
 
-    
-    
   }, [])
 
 
@@ -39,12 +37,14 @@ export default function Home() {
 
   return (
     <div className='flex flex-col w-screen h-screen p-1'>
-      <nav className='flex h-15  w-full justify-center'>Finance game</nav>
+      <nav className='flex h-15  w-full justify-center'>
+        Your Balance: ${balance.toFixed(2)}
+      </nav>
       <main className='flex flex-col items-center gap-10 w-full h-full p-5'>
         
         {securities.length > 0 && 
-          <div className='flex flex-col items-center w-full h-fit gap-5 py-10'>
-            <SecurityModal month={month} balance={balance} setBalance={setBalance} security={securities[0]} securities={securities} holdings={holdings} setHodings={setHoldings}/>
+          <div className='flex flex-col items-center w-full h-full gap-5 py-10'>
+            <SecurityModal month={month} balance={balance} setBalance={setBalance} security={securities[0]} securities={securities} holdings={holdings} setHoldings={setHoldings}/>
         </div>
         }
 
