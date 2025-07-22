@@ -1,30 +1,18 @@
 import {Security, Event, Holding} from "@/interfaces/securities";
 import {commodities, companies, events} from "@/utils/securities/constants";
-export function setUpSecurities(){
-    if (typeof window !== 'undefined'){
-        const secStr = localStorage.getItem("securities");
-        if (secStr !== null){
-            const securityPrices:Array<{ticker:string, priceHistory: number[], recentEvents:Event[]}> = JSON.parse(secStr);
-            const securities = companies;
-            securities.concat(commodities)
-            securities.forEach((x)=>{
-                // it will always find the security, refer to else statement
-                const storedSecurity = securityPrices.find((s)=>s.ticker===x.ticker);
-                x.priceHistory = storedSecurity?.priceHistory || [];
-                x.recentEvents = storedSecurity?.recentEvents || [];
-            })
-            return securities;
-        }else{
-            const securities = companies;
-            securities.concat(commodities)
-            assignEvent(securities);
-            localStorage.setItem("securities", JSON.stringify(securities.map((security:Security)=>({ticker:security.ticker, priceHistory:security.priceHistory, events: security.recentEvents}))));
-            console.log("successfully set up securities")
-            return securities;
-        }
-    }else{
-        console.warn("Call to setUpSecurities failed due to window being undefined")
+export function setUpSecurities():Array<Security>{
+    const securities = companies;
+    securities.concat(commodities)
+    assignEvent(securities);
+    localStorage.setItem("securities", JSON.stringify(securities.map((security:Security)=>({ticker:security.ticker, priceHistory:security.priceHistory, events: security.recentEvents}))));
+    return securities;
+}
+
+export function importSecurities():Array<Security>{
+    if (typeof window !== "undefined"){
+        return JSON.parse(localStorage.getItem("securities") || "[]")
     }
+    return [];
 }
 
 export function exportSecurities(securities:Array<Security>){
