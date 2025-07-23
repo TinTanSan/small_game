@@ -1,11 +1,9 @@
 'use client'
-import SecurityModal from "@/app/components/securityModal";
 import { Deposit } from '@/interfaces/deposit';
 import { Holding, Security } from '@/interfaces/securities'
-import { getBalance, getDeposits, getHoldings, getMonth, setLocalstorageMonth, setUpLocalStorage } from "@/utils/commons";
-import { importDeposits } from '@/utils/deposit/functions';
-import { importSecurities, setUpSecurities, updateSecurityState } from '@/utils/securities/functions';
-import { LineChart } from '@mui/x-charts';
+import { getBalance, getDeposits, getHoldings, getMonth, setLocalstorageBalance, setLocalstorageMonth, setUpLocalStorage } from "@/utils/commons";
+
+import { getSecurity, importSecurities, setUpSecurities, updateSecurityState } from '@/utils/securities/functions';
 import React, { useEffect, useState } from 'react'
 
 export default function Home() {
@@ -23,6 +21,7 @@ export default function Home() {
       setMonth(getMonth())
       setHoldings(getHoldings())
       setDeposits(getDeposits())
+      setSecurities(importSecurities())
 
   }, [])
 
@@ -34,7 +33,12 @@ export default function Home() {
       setLocalstorageMonth(n)
       return n
     })
-    
+    setBalance(prev=>{
+      const nb = prev + 1000;
+      setLocalstorageBalance(nb);
+      return nb
+    })
+
   }
 
   return (
