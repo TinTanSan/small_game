@@ -24,8 +24,9 @@ export function getMonth():number{
 export function setLocalstorageMonth(month:number){
     if (typeof window !=='undefined'){
         localStorage.setItem("month", month.toString());
-    }
-    throw new Error("window object was undefined")
+    }else{
+        throw new Error("window object was undefined")
+    } 
 }
 
 export function getBalance():number{
@@ -42,8 +43,10 @@ export function getBalance():number{
 export function setLocalstorageBalance(balance:number){
     if (typeof window !=='undefined'){
         localStorage.setItem("balance", balance.toString());
+    }else{
+        throw new Error("window object was undefined")
     }
-    throw new Error("window object was undefined")
+    
 }
 
 export function getProperties():Array<Property>{
@@ -60,8 +63,9 @@ export function getProperties():Array<Property>{
 export function setLocalstorageProperties(properties:Array<Property>){
     if (typeof window !=='undefined'){
         localStorage.setItem("properties", JSON.stringify(properties));
+    }else{
+        throw new Error("window object was undefined")
     }
-    throw new Error("window object was undefined")
 }
 
 export function getDeposits():Array<Deposit>{
@@ -78,15 +82,17 @@ export function getDeposits():Array<Deposit>{
 export function setLocalstorageDeposits(deposits:Array<Deposit>){
     if (typeof window !=='undefined'){
         localStorage.setItem("deposits", JSON.stringify(deposits));
+    }else{
+        throw new Error("window object was undefined")
     }
-    throw new Error("window object was undefined")
+    
 }
 
 export function getHoldings():Array<Holding>{
     if (typeof window !== "undefined"){
         const holdingsStr = localStorage.getItem("holdings");
         if (holdingsStr === null){
-            throw new Error("deposits not found in localstorage")
+            throw new Error("holdings not found in localstorage")
         }
         return JSON.parse(holdingsStr)
     }
@@ -96,8 +102,10 @@ export function getHoldings():Array<Holding>{
 export function setLocalstorageHoldingss(holdings:Array<Deposit>){
     if (typeof window !=='undefined'){
         localStorage.setItem("holdings", JSON.stringify(holdings));
+    }else{
+        throw new Error("window object was undefined")
     }
-    throw new Error("window object was undefined")
+    
 }
 
 export function setUpLocalStorage(){
