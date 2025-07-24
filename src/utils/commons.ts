@@ -99,7 +99,7 @@ export function getHoldings():Array<Holding>{
     throw new Error("window object was undefined")
 }
 
-export function setLocalstorageHoldingss(holdings:Array<Deposit>){
+export function setLocalstorageHoldings(holdings:Array<Holding>){
     if (typeof window !=='undefined'){
         localStorage.setItem("holdings", JSON.stringify(holdings));
     }else{
