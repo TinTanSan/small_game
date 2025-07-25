@@ -70,7 +70,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Semiconductors",
     riskTier: "High",
-    priceHistory:[189.1],
+    priceHistory:[1000.1],
     recentEvents: []
   },
   {
@@ -97,16 +97,16 @@ export const commodities: Array<Security>=[
     {
         ticker: "XAUAUD",
         name: "Gold (troy ounce)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier :  "High",
         industry: "Precious Metal",
-        priceHistory:[2000],
+        priceHistory:[2000,2100,2200,2500,3000,4000,3500,3400,3300,3800, 3000, 2000],
         recentEvents: []
     },
     {
         ticker:"AGAUD",
         name: "Silver (Tonne)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier:"High",
         industry:"Precious Metal",
         priceHistory:[200],
@@ -115,7 +115,7 @@ export const commodities: Array<Security>=[
     {
         ticker:"CUAUD",
         name: "Copper (Tonne)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier:"High",
         industry:"Precious Metal",
         priceHistory:[100],
@@ -124,7 +124,7 @@ export const commodities: Array<Security>=[
     {
         ticker:"WTI",
         name:"Brent Crude Oil (barrels)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
         priceHistory:[75],
@@ -133,7 +133,7 @@ export const commodities: Array<Security>=[
     {
         ticker:"COB",
         name:"Corn (Bushells)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
         priceHistory:[400],
@@ -141,7 +141,7 @@ export const commodities: Array<Security>=[
     },{
         ticker:"WHB",
         name:"Wheat (Bushells)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
         priceHistory:[500],
@@ -150,7 +150,7 @@ export const commodities: Array<Security>=[
     {
         ticker:"Sg",
         name:"Sugar ($/pound)",
-        securityType:"Commoditity",
+        securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
         priceHistory:[12],
