@@ -9,7 +9,7 @@ export interface Security{
     ticker: string;
     name: string;
     industry: string;
-    securityType: "Equity" | "Commoditity" ;
+    securityType: "Equity" | "Commodity" ;
     riskTier: "Low" | "High";
     priceHistory: Array<number>;
     recentEvents: Array<Event>;
