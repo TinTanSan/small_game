@@ -55,7 +55,8 @@ export default function Ticker() {
         setMonth(prev=>{
           const n = prev +1;
           setLocalstorageMonth(n);
-          setBalance(getBalance());
+          const bal = getBalance() + 100
+          setLocalstorageBalance(bal)
           return n
         })
     }
@@ -188,6 +189,7 @@ export default function Ticker() {
         }
         setUnits('0');
         setValue('0.00');
+        setUnitAlert(false);
     }
 
     if (security === undefined && !loading){
