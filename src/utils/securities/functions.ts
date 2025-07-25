@@ -1,10 +1,9 @@
 import {Security, Event, Holding} from "@/interfaces/securities";
 import {commodities, companies, events} from "@/utils/securities/constants";
 export function setUpSecurities():Array<Security>{
-    const securities = companies;
-    securities.concat(commodities)
+    const securities = companies.concat(commodities);
+    console.log(securities.length)
     assignEvent(securities);
-    localStorage.setItem("securities", JSON.stringify(securities.map((security:Security)=>({ticker:security.ticker, priceHistory:security.priceHistory, events: security.recentEvents}))));
     return securities;
 }
 
