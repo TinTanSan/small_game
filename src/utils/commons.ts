@@ -152,17 +152,18 @@ export function importFromLocalStorage():GameState{
     }
 }
 export function updateGameState(gameState:GameState, monthly_income:number):GameState{
-    gameState.month +=1;
-    setLocalstorageMonth(gameState.month);
-    gameState.balance += monthly_income;
+    const gs = JSON.parse(JSON.stringify(gameState));
+    gs.month +=1;
+    setLocalstorageMonth(gs.month);
+    gs.balance += monthly_income;
     
-    gameState.balance += calculateInterestPayment(gameState.deposits);
-    gameState.balance += collectIncome(gameState.properties);
-    setLocalstorageBalance(gameState.balance)
+    gs.balance += calculateInterestPayment(gs.deposits);
+    gs.balance += collectIncome(gs.properties);
+    setLocalstorageBalance(gs.balance)
 
     // update securities manages setting the localstorage with the new value
-    gameState.securities = updateSecurityState(gameState.securities);
+    gs.securities = updateSecurityState(gs.securities);
 
     // holdings doesn't change here, that changes when the user buys or sells shares
-    return gameState;
+    return gs;
 }
