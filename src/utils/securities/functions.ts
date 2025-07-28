@@ -28,13 +28,13 @@ export function assignEvent(securities:Array<Security>){
         const ticker = security.ticker;
         const availableEvents = events[ticker];
         // random chance to have a boring month where there are no major events happening with the security
-        const randomChance = Math.round(Math.random()*10);
+        const randomChance = Math.round(Math.random()*100);
         const randIdx = Math.floor(Math.random()*availableEvents.length);
         const randomEvent = availableEvents[randIdx];
         // 
-        if (randomChance <=1){
+        if (randomChance <=2     && security.recentEvents.length > 0){
             randomEvent.title = "A boring month for "+security.ticker;
-            randomEvent.description = "Nothing really interesting happened this month, investors are busy min-maxing profits and news agencies are busy elsewhere";
+            randomEvent.description = "Nothing really interesting happened this month, investors are busy min-maxing profits and finance reporters are busy elsewhere";
             randomEvent.impact = security.recentEvents[0].impact * 0.99;
         }
         // we scrape together whether the event is positive or negative based on whether the impact is > 0 or not
