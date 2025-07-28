@@ -1,7 +1,10 @@
 import { Property } from "@/interfaces/property";
-import { setUpSecurities } from "./securities/functions";
+import { importSecurities, setUpSecurities, updateSecurityState } from "./securities/functions";
 import { Deposit } from "@/interfaces/deposit";
 import { Holding } from "@/interfaces/securities";
+import { GameState } from "@/app/contexts/gameStateContext";
+import { calculateInterestPayment } from "./deposit/functions";
+import { collectIncome } from "./property/functions";
 
 export function generateUUID(): string{
     if(typeof window !== "undefined"){
@@ -136,4 +139,30 @@ export function tearDownLocalStorage(){
         localStorage.clear();
         console.log("successfully cleared localStorage")
     }
+}
+
+export function importFromLocalStorage():GameState{
+    return {
+        month:getMonth(),
+        balance: getBalance(),
+        holdings: getHoldings(),
+        securities: importSecurities(),
+        properties: getProperties(),
+        deposits: getDeposits()
+    }
+}
+export function updateGameState(gameState:GameState, monthly_income:number):GameState{
+    gameState.month +=1;
+    setLocalstorageMonth(gameState.month);
+    gameState.balance += monthly_income;
+    
+    gameState.balance += calculateInterestPayment(gameState.deposits);
+    gameState.balance += collectIncome(gameState.properties);
+    setLocalstorageBalance(gameState.balance)
+
+    // update securities manages setting the localstorage with the new value
+    gameState.securities = updateSecurityState(gameState.securities);
+
+    // holdings doesn't change here, that changes when the user buys or sells shares
+    return gameState;
 }
