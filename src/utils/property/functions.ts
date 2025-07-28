@@ -24,6 +24,7 @@ export function exportProperties(properties:Array<Property>){
     }
     
 }
+
 export function createRandomProperties(curMonth: number):Array<Property>{
     if (typeof window !== "undefined"){
         // 0.1% x the month chance to be a special property
@@ -81,3 +82,16 @@ export function sellProperty(properties:Array<Property>, id: string){
     return 0;
 }
 
+
+export function collectIncome(properties:Array<Property>):number{
+    return properties.reduce((acc:number, prop:Property)=>{
+        let payment = 0;
+        if (prop.loan.loanAmountRemaining > 0){
+            payment += prop.loan.loanAmountRemaining*(((prop.loan.interestRate/12)+1)^360) / ((((prop.loan.interestRate/12)+1)^360)-1)
+        }
+        payment += prop.expenses;
+        
+        // this number is allowed to be less than 0
+        return prop.income - prop.expenses;
+    },0)
+}
