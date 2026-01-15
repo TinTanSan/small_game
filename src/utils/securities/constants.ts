@@ -7,7 +7,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Entertainment",
     riskTier: "High",
-    priceHistory:[85.0,180,200,400,200,100,10,1,0.9,0.1,5,11],
+    priceHistory:[85.0,180,200,400,200,100,10,1,0.9,0.1,5,0.1],
     recentEvents: []
   },
   {
@@ -16,7 +16,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Renewable Energy",
     riskTier: "High",
-    priceHistory:[122.5],
+    priceHistory:[122.5, 128.0, 135.2, 118.4, 110.0, 105.5, 98.0, 102.3, 115.0, 125.6, 132.0, 140.5],
     recentEvents: []
   },
   {
@@ -25,7 +25,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Healthcare",
     riskTier: "Low",
-    priceHistory:[98.3],
+    priceHistory:[98.3, 99.1, 98.8, 100.2, 101.5, 102.0, 101.8, 102.5, 103.4, 104.1, 105.0, 106.2],
     recentEvents: []
   },
   {
@@ -34,7 +34,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Finance / AI",
     riskTier: "High",
-    priceHistory:[110.0],
+    priceHistory:[110.0, 115.5, 128.4, 142.0, 138.5, 130.0, 122.4, 135.6, 150.2, 165.0, 172.5, 185.0],
     recentEvents: []
   },
   {
@@ -43,7 +43,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Construction / Real Estate",
     riskTier: "Low",
-    priceHistory:[75.6],
+    priceHistory:[75.6, 76.2, 77.0, 77.5, 76.8, 75.2, 74.5, 75.0, 76.4, 77.8, 78.5, 79.2],
     recentEvents: []
   },
   {
@@ -52,7 +52,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Technology / Cloud",
     riskTier: "High",
-    priceHistory:[142.0],
+    priceHistory:[142.0, 155.4, 168.0, 160.5, 152.0, 145.5, 138.0, 144.2, 158.0, 175.6, 188.0, 202.5],
     recentEvents: []
   },
   {
@@ -61,7 +61,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Agriculture / Consumer Goods",
     riskTier: "Low",
-    priceHistory:[65.4],
+    priceHistory:[65.4, 66.0, 66.5, 67.2, 68.0, 67.5, 66.8, 67.0, 68.2, 69.1, 69.8, 70.5],
     recentEvents: []
   },
   {
@@ -70,7 +70,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Semiconductors",
     riskTier: "High",
-    priceHistory:[1000.1],
+    priceHistory:[1000.1, 1050.5, 1120.0, 1250.4, 1180.0, 1050.0, 980.5, 1100.0, 1320.4, 1450.0, 1580.6, 1705.0],
     recentEvents: []
   },
   {
@@ -79,7 +79,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Transport / Logistics",
     riskTier: "Low",
-    priceHistory:[54.2],
+    priceHistory:[54.2, 54.8, 55.5, 56.2, 55.8, 55.0, 54.5, 55.2, 56.0, 57.1, 58.4, 59.5],
     recentEvents: []
   },
   {
@@ -88,7 +88,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Retail",
     riskTier: "Low",
-    priceHistory:[49.5],
+    priceHistory:[49.5, 50.1, 51.2, 52.0, 51.5, 50.8, 49.2, 48.5, 50.0, 52.3, 53.5, 55.0],
     recentEvents: []
   }
 ]
@@ -153,7 +153,7 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
-        priceHistory:[21, 23, 25, 27, 26, 24, 22, 21, 20, 22, 24, 25],
+        priceHistory:[21, 23, 25, 27, 26, 24, 22, 21, 20, 22, 24, 21],
         recentEvents:[]
     },
 ]
@@ -219,6 +219,12 @@ export const events: Record<string, Event[]> = {
       "title": "Unexpected Drop in Quarterly Ad Revenue",
       "description": "BuzzSpark Media reports a surprising decline in advertising revenue, attributed to a softer ad market and economic uncertainty.",
       "impact": -0.08
+    },
+    {
+      type:"positive",
+      title: "BSM declares 1:10 stock split",
+      description:"BSM to complete a stock split with a ratio of 1 current share to 10 split shares to increase share affordability during recent hikes in price.",
+      impact: 3
     }
   ],
 
