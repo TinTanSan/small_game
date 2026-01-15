@@ -7,7 +7,7 @@ export const companies:Array<Security> = [
     securityType: "Equity",
     industry: "Entertainment",
     riskTier: "High",
-    priceHistory:[85.0,180,200,400,200,100,10,1,0.9,0.1,5,0.1],
+    priceHistory:[85.0,180,200,400,200,100,10,1,0.9,0.1,5,4.9],
     recentEvents: []
   },
   {
