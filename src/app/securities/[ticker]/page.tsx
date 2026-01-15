@@ -1,16 +1,22 @@
 'use client'
 import Banner from '@/app/components/Banner';
 import { BannerDetails } from '@/app/components/Banner';
+import { GameState, GameStateContext } from '@/app/contexts/gameStateContext';
+import { PageContext } from '@/app/contexts/pageContext';
 import { Holding, Security } from '@/interfaces/securities';
-import { getBalance, getHoldings, getMonth, setLocalstorageBalance, setLocalstorageHoldings, setLocalstorageMonth, setUpLocalStorage} from '@/utils/commons';
-import { getSecurity, importSecurities, updateSecurityState } from '@/utils/securities/functions';
+import { getBalance, getHoldings, getMonth, setLocalstorageBalance, setLocalstorageHoldings} from '@/utils/commons';
+import { getSecurity } from '@/utils/securities/functions';
 import { LineChart } from '@mui/x-charts/LineChart';
 import Link from 'next/link';
 import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 export default function Ticker() {
     let {ticker} = useParams();
+    const pageContext = useContext(PageContext);
+    const gameStateContext = useContext(GameStateContext);
+    
+    
     const [units, setUnits] = useState("0");
     const [value,setValue]= useState("0.00");
     const [loading, setLoading] = useState(true);
@@ -25,17 +31,21 @@ export default function Ticker() {
     const [showBanner, setShowBanner] = useState(false);
     useEffect(()=>{
         setLoading(true)
-        setUpLocalStorage();
+        pageContext?.setPage("SEC:"+ticker?.toString().toUpperCase())
         if (ticker){
-            const sec = getSecurity(ticker.toString());
+            const sec = getSecurity(ticker.toString())
+            
             if (sec === undefined){
                 setLoading(false);
                 return;
             }
+            setHolding(getHoldings().find(x=>x.ticker===sec.ticker));
             setMonth(getMonth());
             setBalance(getBalance());
+            setLoading(false);
         }
     },[])
+
 
     useEffect(()=>{
         setLoading(true)
@@ -48,18 +58,34 @@ export default function Ticker() {
             setSecurity(sec);
             setHolding(getHoldings().find(x=>x.ticker===security?.ticker));
         }
-    },[month])
+    },[gameStateContext?.gameState?.month])
 
-    const handleNextMonth = ()=>{
-        updateSecurityState(importSecurities());
-        setMonth(prev=>{
-          const n = prev +1;
-          setLocalstorageMonth(n);
-          const bal = getBalance() + 100
-          setLocalstorageBalance(bal)
-          return n
-        })
-    }
+    useEffect(()=>{
+        if (security!==undefined && units !== "0" && value !=="0.00"){
+            gameStateContext?.setGameState(
+                    (prev)=>
+                        {
+                            if (prev !==undefined){
+                                const gs:GameState = JSON.parse(JSON.stringify(prev));
+                                gs.balance = balance;
+                                setLocalstorageBalance(balance)
+                                gs.holdings = getHoldings()
+                                setLocalstorageHoldings(gs.holdings)
+                                return gs
+                            }
+                            return undefined
+                        }
+                            
+                );
+            setBannerDetails({text:(isBuy?"bought ":"sold ")+units+" units of "+security?.ticker, isGood:true})
+            setShowBanner(true)
+            setUnits('0');
+            setValue('0.00');
+            setUnitAlert(false);  
+        }
+        
+    }, [holding])
+    
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         if (security === undefined){
             console.error("security not loaded correctly")
@@ -140,46 +166,35 @@ export default function Ticker() {
             // because they are interconnected inputs
             return;
         }
-        const holdings = getHoldings();
-        const holding = holdings.findIndex(x=>x.ticker===security.ticker);
+        const holdings = gameStateContext?.gameState?.holdings || [];
+        let holdingIdx = holdings.findIndex(x=>x.ticker===security.ticker);
         if (Number.isInteger(u) && !Number.isNaN(v)){
             if (isBuy){
-                if (holding !==-1){
+                if (holdingIdx !==-1){
                     // we own this stock
-                    const new_total_units = holdings[holding].units + u;
-                    holdings[holding].averagePrice = parseFloat((((holdings[holding].averagePrice*holdings[holding].units) + (v)) / (holdings[holding].units + u)).toFixed(2))
-                    holdings[holding].units = new_total_units;
+                    const new_total_units = holdings[holdingIdx].units + u;
+                    holdings[holdingIdx].averagePrice = parseFloat((((holdings[holdingIdx].averagePrice*holdings[holdingIdx].units) + (v)) / (holdings[holdingIdx].units + u)).toFixed(2))
+                    holdings[holdingIdx].units = new_total_units;
                 }else{
                     // we don't own this stock
                     holdings.push({averagePrice:security.priceHistory[security.priceHistory.length-1], units:u,ticker:security.ticker})
+                    holdingIdx = holdings.length-1;
                 }
-                setBalance(prev=>{
-                    const new_balance = prev - v;
-                    setLocalstorageBalance(new_balance)
-                    setLocalstorageHoldings(holdings);
-                    setHolding(getHoldings().find(x=>x.ticker===security?.ticker))
-                    setBannerDetails({text:"bought "+u+" units of "+security.ticker, isGood:true})
-                    setShowBanner(true)  
-                    return new_balance;
-                })
+                setBalance(prev=>prev-(v));
+                setHolding(holdings[holdingIdx]);
+                setLocalstorageHoldings(holdings)
             }else{
-                if (holding !== -1){
-                    const new_units = holdings[holding].units - u;
+                if (holdingIdx !== -1){
+                    const new_units = holdings[holdingIdx].units - u;
                     if (new_units ==0){
-                        holdings.splice(holding,1)
+                        holdings.splice(holdingIdx,1)
                     }else{
-                        holdings[holding].units = new_units;
+                        holdings[holdingIdx].units = new_units;
                     }
-                    setBalance(prev=>{
-                        const new_balance = prev + v;
-                        setLocalstorageBalance(new_balance);
-                        setLocalstorageHoldings(holdings);
-                        setHolding(getHoldings().find(x=>x.ticker===security?.ticker))
-                        setBannerDetails({text:"sold "+u+" units of "+security.ticker, isGood:true})
-                        setShowBanner(true)  
-                        return new_balance
-                    })
-                }else if (holding === -1 && u > 0){
+                    setBalance(prev=>prev+(v));
+                    setHolding(holdings[holdingIdx]);
+                    setLocalstorageHoldings(holdings);
+                }else if (holdingIdx === -1 && u > 0){
                     // sell, units were greater than 0 and holding for current security was not found
                     setBannerDetails({text:"Sell not allowed, you do not own this share", isGood:false})
                     setShowBanner(true)
@@ -187,9 +202,7 @@ export default function Ticker() {
                 // sell but units were 0 do nothing
             }
         }
-        setUnits('0');
-        setValue('0.00');
-        setUnitAlert(false);
+        
     }
 
     if (security === undefined && !loading){
@@ -201,22 +214,9 @@ export default function Ticker() {
         )
     }else{
         return (
-            <div className='flex flex-col w-screen h-screen overflow-hidden justify-center items-center text-xl gap-2 p-2'>
+            <div className='flex flex-col w-full h-full overflow-hidden justify-center items-center text-xl gap-2 p-2'>
                 { showBanner && <Banner bannerDetails={bannerDetails} setShow={setShowBanner}/>}
                 <title>{security?.ticker}</title>
-                <div className='flex w-full h-10 border-2 rounded-lg justify-between px-5 items-center'>
-                    <div className='flex gap-2 text-lg items-center'>
-                        <div>Month:{month}</div>
-                        <button onClick={()=>{handleNextMonth()}} className='flex h-8 text-lg items-center justify-center bg-blue-500 text-white px-3 rounded-lg'>Next Month</button>
-                    </div>
-                    <div className='flex'>
-                        {security?.ticker.toUpperCase()}
-                    </div>
-
-                    <div className='flex '>
-                        <div>Balance: ${balance.toFixed(2)}</div>
-                    </div>
-                </div>
                 {(security !==undefined) &&
                 <div className='flex w-full h-full flex-row gap-2'>
                     {/* left side */}
