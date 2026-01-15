@@ -12,7 +12,8 @@ export default function MiniGraph({security}:{security:Security}) {
     const currentClose = security.priceHistory.at(-1) ?? 0;
     const changeSinceLastMonth = (currentClose-previousClose);
     const percentageChange = (changeSinceLastMonth/currentClose)*100;
-    const graphColor = changeSinceLastMonth > 0? "oklch(52.7% 0.154 150.069)" : changeSinceLastMonth=== 0 ? "oklch(48.8% 0.243 264.376)":"oklch(50.5% 0.213 27.518)" ;
+    const graphColor = changeSinceLastMonth > 0? "oklch(52.7% 0.8 154.069)" : changeSinceLastMonth=== 0 ? "oklch(48.8% 0.243 264.376)":"oklch(50.5% 0.5 27.518)" ;
+    const areaColor = changeSinceLastMonth > 0? "oklch(57.7% 0.5 140.069)" : changeSinceLastMonth=== 0 ? "oklch(48.8% 0.243 264.376)":"oklch(45.5% 0.213 27.518)" ;
     return (
         <div className='flex flex-row w-full h-fit items-center justify-between2 shadow-lg/20 border-2 border-zinc-300 rounded-xl bg-base-100 gap-5 text-lg p-2'>
             <div className='flex text-lg w-1/4 px-2 text-nowrap'>{security.name}</div>
@@ -27,7 +28,11 @@ export default function MiniGraph({security}:{security:Security}) {
             }}
                 sx={{
                 maxHeight:'4rem',
-                maxWidth: '15rem'
+                maxWidth: '15rem',
+                fillOpacity:'0.2',
+                '& .MuiAreaElement-root': {
+                    fill:areaColor
+                }
                 }}
                 yAxis={[{
                 position:'none'
