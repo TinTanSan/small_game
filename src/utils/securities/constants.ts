@@ -100,16 +100,16 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier :  "High",
         industry: "Precious Metal",
-        priceHistory:[2000,2100,2200,2500,3000,4000,3500,3400,3300,3800, 3000, 2000],
+        priceHistory:[2850, 2920, 3100, 3350, 3600, 3850, 4100, 3950, 4050, 4200, 4150, 4300],
         recentEvents: []
     },
     {
         ticker:"AGAUD",
-        name: "Silver (Tonne)",
+        name: "Silver (troy ounce)",
         securityType:"Commodity",
         riskTier:"High",
         industry:"Precious Metal",
-        priceHistory:[200],
+        priceHistory:[88, 95, 110, 125, 120, 130, 145, 138, 142, 140, 135, 138],
         recentEvents:[]
     },
     {
@@ -118,7 +118,7 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier:"High",
         industry:"Precious Metal",
-        priceHistory:[100],
+        priceHistory:[12500, 12800, 13200, 14500, 15200, 14800, 14200, 13900, 14400, 15000, 15500, 16000],
         recentEvents:[]
     },
     {
@@ -127,7 +127,7 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
-        priceHistory:[75],
+        priceHistory:[72, 75, 78, 82, 85, 90, 88, 84, 80, 78, 82, 84],
         recentEvents:[]
     },
     {
@@ -136,7 +136,7 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
-        priceHistory:[400],
+        priceHistory:[430, 445, 460, 480, 475, 450, 440, 425, 415, 430, 445, 460],
         recentEvents:[]
     },{
         ticker:"WHB",
@@ -144,7 +144,7 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
-        priceHistory:[500],
+        priceHistory:[560, 580, 610, 650, 700, 680, 640, 620, 600, 590, 610, 630],
         recentEvents:[]
     },
     {
@@ -153,7 +153,7 @@ export const commodities: Array<Security>=[
         securityType:"Commodity",
         riskTier:"High",
         industry:"Essential Energy",
-        priceHistory:[12],
+        priceHistory:[21, 23, 25, 27, 26, 24, 22, 21, 20, 22, 24, 25],
         recentEvents:[]
     },
 ]
