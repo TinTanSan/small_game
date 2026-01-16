@@ -13,7 +13,7 @@ export default function MiniGraph({security}:{security:Security}) {
     const changeSinceLastMonth = (currentClose-previousClose);
     const percentageChange = (changeSinceLastMonth/currentClose)*100;
     const graphColor = changeSinceLastMonth > 0? "oklch(52.7% 0.8 154.069)" : changeSinceLastMonth=== 0 ? "oklch(48.8% 0.243 264.376)":"oklch(50.5% 0.5 27.518)" ;
-    const areaColor = changeSinceLastMonth > 0? "oklch(57.7% 0.5 140.069)" : changeSinceLastMonth=== 0 ? "oklch(48.8% 0.243 264.376)":"oklch(45.5% 0.213 27.518)" ;
+    const areaColor = changeSinceLastMonth > 0? "url(#green-gradient)" : changeSinceLastMonth=== 0 ? "url(#blue-gradient)":"url(#red-gradient)" ;
     return (
         <div className='flex flex-row w-full h-fit items-center justify-between2 shadow-lg/20 border-2 border-zinc-300 rounded-xl bg-base-100 gap-5 text-lg p-2'>
             <div className='flex text-lg w-1/4 px-2 text-nowrap'>{security.name}</div>
@@ -52,7 +52,22 @@ export default function MiniGraph({security}:{security:Security}) {
                 showMark:false,
                 color:graphColor,
                 }]}
-            />
+            >
+                <defs>
+                    <linearGradient id="green-gradient" x1="0%" y1="25%" x2="0%" y2="100%">
+                        <stop offset="0" stopColor="oklch(57.7% 0.5 140.069)" />
+                        <stop offset="1" stopColor="#FFFFFF00" />
+                    </linearGradient>
+                    <linearGradient id="red-gradient" x1="0%" y1="25%" x2="0%" y2="100%">
+                        <stop offset="0" stopColor="oklch(45.5% 0.213 27.518)" />
+                        <stop offset="1" stopColor="#FFFFFF00" />
+                    </linearGradient>
+                    <linearGradient id="blue-gradient" x1="0%" y1="25%" x2="0%" y2="100%">
+                        <stop offset="0" stopColor="oklch(48.8% 0.243 264.376)" />
+                        <stop offset="1" stopColor="#FFFFFF00" />
+                    </linearGradient>
+                </defs>
+            </LineChart>
             </div>
             {/* current price */}
             <div className='flex w-fit text-nowrap px-2'>
