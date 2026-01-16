@@ -56,9 +56,10 @@ export default function Ticker() {
                 return;
             }
             setSecurity(sec);
+            setBalance(gameStateContext?.gameState?.balance??0);
             setHolding(getHoldings().find(x=>x.ticker===security?.ticker));
         }
-    },[gameStateContext?.gameState?.month])
+    },[gameStateContext?.gameState?.month, gameStateContext?.gameState?.balance])
 
     useEffect(()=>{
         if (security!==undefined && units !== "0" && value !=="0.00"){
@@ -74,8 +75,7 @@ export default function Ticker() {
                                 return gs
                             }
                             return undefined
-                        }
-                            
+                        }     
                 );
             setBannerDetails({text:(isBuy?"bought ":"sold ")+units+" units of "+security?.ticker, isGood:true})
             setShowBanner(true)
@@ -166,7 +166,7 @@ export default function Ticker() {
             // because they are interconnected inputs
             return;
         }
-        const holdings = gameStateContext?.gameState?.holdings || [];
+        const holdings = getHoldings();
         let holdingIdx = holdings.findIndex(x=>x.ticker===security.ticker);
         if (Number.isInteger(u) && !Number.isNaN(v)){
             if (isBuy){

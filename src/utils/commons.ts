@@ -114,7 +114,6 @@ export function setLocalstorageHoldings(holdings:Array<Holding>){
 export function setUpLocalStorage(){
     if (typeof window !== "undefined"){
         // set up localstorage only if the localstorage's length is not 5
-        console.log(localStorage.length)
         if (localStorage.length !== 6){
             console.log("setting up localStorage")
             if (localStorage.length > 0){
@@ -152,7 +151,7 @@ export function importFromLocalStorage():GameState{
     }
 }
 export function updateGameState(gameState:GameState, monthly_income:number):GameState{
-    const gs = JSON.parse(JSON.stringify(gameState));
+    const gs:GameState = JSON.parse(JSON.stringify(gameState));
     gs.month +=1;
     setLocalstorageMonth(gs.month);
     gs.balance += monthly_income;
@@ -164,6 +163,8 @@ export function updateGameState(gameState:GameState, monthly_income:number):Game
     // update securities manages setting the localstorage with the new value
     gs.securities = updateSecurityState(gs.securities);
 
-    // holdings doesn't change here, that changes when the user buys or sells shares
+    if (gs.securities.some(x=>x.recentEvents.at(-1)?.title.includes("stock split"))){
+        gs.holdings = getHoldings();
+    }
     return gs;
 }
