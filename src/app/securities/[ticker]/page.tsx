@@ -226,7 +226,7 @@ export default function Ticker() {
                             sx={{
                                 minWidth: '10%',
                                 minHeight: "50%",
-                                maxHeight:'95%' //this will need 
+                                maxHeight:'95%',
                             }}
                             dataset={security.priceHistory.map((x, i)=>({price:x, month: ((month|| 0) + i-security.priceHistory.length)}))}
                             xAxis={[{ scaleType: 'point', dataKey:'month' }]}
@@ -235,9 +235,15 @@ export default function Ticker() {
                                 max:(Math.max(...security.priceHistory,(holding?.averagePrice || security.priceHistory[0]))*1.01)
                             }]}
                             series={holding?[
-                                { curve:'natural', dataKey:'price',label:'price of '+security.ticker.toUpperCase()},
-                                {curve:'linear',data:Array(security.priceHistory.length).fill([(holding.averagePrice)])
-                                    ,label:'average price of your holdings'
+                                { curve:'natural', 
+                                    dataKey:'price',
+                                    label:'price of '+security.ticker.toUpperCase()
+                                },
+                                {
+                                    curve:'linear',
+                                    data:Array(security.priceHistory.length).fill([(holding.averagePrice)]),
+                                    label:'average price of your holdings',
+                                    
                                 }
                             ]:
                             [
